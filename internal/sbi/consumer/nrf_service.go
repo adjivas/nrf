@@ -47,7 +47,8 @@ func (s *nnrfService) SendNFStatusNotify(
 	url string,
 	nfProfile *models.NfProfile,
 ) *models.ProblemDetails {
-	logger.ConsumerLog.Infoln("SendNFStatusNotify")
+	// url = "http://127.0.0.18/namf-loc/v1"
+	logger.ConsumerLog.Infof("ADJIVAS SendNFStatusNotify url: %+v", url)
 
 	client := s.getNFManagementClient(url)
 	if client == nil {
@@ -63,6 +64,14 @@ func (s *nnrfService) SendNFStatusNotify(
 	notifcationData := models.NotificationData{
 		Event:         notification_event,
 		NfInstanceUri: nfInstanceUri,
+		NfProfile: &models.NfProfileNotificationData{
+			PlmnList: []models.PlmnId{},
+			SNssais: []models.Snssai{},
+			AllowedPlmns: []models.PlmnId{},
+			AllowedNssais: []models.Snssai{},
+			NfServices: []models.NfService{},
+			DefaultNotificationSubscriptions: []models.DefaultNotificationSubscription{},
+		},
 	}
 	if nfProfile != nil {
 		buildNotificationDataFromNfProfile(notifcationData.NfProfile, nfProfile)
@@ -101,18 +110,26 @@ func buildNotificationDataFromNfProfile(notifProfile *models.NfProfileNotificati
 	notifProfile.NfType = nfProfile.NfType
 	notifProfile.NfStatus = nfProfile.NfStatus
 	notifProfile.HeartBeatTimer = nfProfile.HeartBeatTimer
-	notifProfile.PlmnList = *nfProfile.PlmnList
-	notifProfile.SNssais = *nfProfile.SNssais
+	if nfProfile.PlmnList != nil {
+		notifProfile.PlmnList = *nfProfile.PlmnList
+	}
+	if nfProfile.SNssais != nil {
+		notifProfile.SNssais = *nfProfile.SNssais
+	}
 	notifProfile.PerPlmnSnssaiList = nfProfile.PerPlmnSnssaiList
 	notifProfile.NsiList = nfProfile.NsiList
 	notifProfile.Fqdn = nfProfile.Fqdn
 	notifProfile.InterPlmnFqdn = nfProfile.InterPlmnFqdn
 	notifProfile.Ipv4Addresses = nfProfile.Ipv4Addresses
 	notifProfile.Ipv6Addresses = nfProfile.Ipv6Addresses
-	notifProfile.AllowedPlmns = *nfProfile.AllowedPlmns
+	if nfProfile.AllowedPlmns != nil {
+		notifProfile.AllowedPlmns = *nfProfile.AllowedPlmns
+	}
 	notifProfile.AllowedNfTypes = nfProfile.AllowedNfTypes
 	notifProfile.AllowedNfDomains = nfProfile.AllowedNfDomains
-	notifProfile.AllowedNssais = *nfProfile.AllowedNssais
+	if nfProfile.AllowedNssais != nil {
+		notifProfile.AllowedNssais = *nfProfile.AllowedNssais
+	}
 	notifProfile.Priority = nfProfile.Priority
 	notifProfile.Capacity = nfProfile.Capacity
 	notifProfile.Load = nfProfile.Load
@@ -130,8 +147,12 @@ func buildNotificationDataFromNfProfile(notifProfile *models.NfProfileNotificati
 	notifProfile.CustomInfo = nfProfile.CustomInfo
 	notifProfile.RecoveryTime = nfProfile.RecoveryTime
 	notifProfile.NfServicePersistence = nfProfile.NfServicePersistence
-	notifProfile.NfServices = *nfProfile.NfServices
+	if nfProfile.NfServices != nil {
+		notifProfile.NfServices = *nfProfile.NfServices
+	}
 	notifProfile.NfProfileChangesSupportInd = nfProfile.NfProfileChangesSupportInd
 	notifProfile.NfProfileChangesInd = nfProfile.NfProfileChangesInd
-	notifProfile.DefaultNotificationSubscriptions = nfProfile.DefaultNotificationSubscriptions
+	if nfProfile.DefaultNotificationSubscriptions != nil {
+		notifProfile.DefaultNotificationSubscriptions = nfProfile.DefaultNotificationSubscriptions
+	}
 }
