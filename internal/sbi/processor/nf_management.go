@@ -462,7 +462,6 @@ func (p *Processor) NFRegisterProcedure(
 
 		// receive the rsp from handler
 		for _, uri := range uriList {
-			logger.NfmLog.Infof("ADJIVAS NFRegisterProcedure %+v", nfProfile)
 			problemDetails := p.Consumer().SendNFStatusNotify(Notification_event, nfInstanceUri, uri, &nfProfile)
 			if problemDetails != nil {
 				util.GinProblemJson(c, problemDetails)

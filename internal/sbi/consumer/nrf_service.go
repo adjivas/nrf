@@ -47,9 +47,6 @@ func (s *nnrfService) SendNFStatusNotify(
 	url string,
 	nfProfile *models.NfProfile,
 ) *models.ProblemDetails {
-	// url = "http://127.0.0.18/namf-loc/v1"
-	logger.ConsumerLog.Infof("ADJIVAS SendNFStatusNotify url: %+v", url)
-
 	client := s.getNFManagementClient(url)
 	if client == nil {
 		return &models.ProblemDetails{
