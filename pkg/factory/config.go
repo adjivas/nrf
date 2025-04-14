@@ -13,7 +13,6 @@ import (
 	"sync"
 
 	"github.com/asaskevich/govalidator"
-
 	"github.com/free5gc/nrf/internal/logger"
 	"github.com/free5gc/openapi/models"
 )

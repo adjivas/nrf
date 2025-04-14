@@ -14,12 +14,11 @@ import (
 	"net/http"
 	"reflect"
 
-	"github.com/gin-gonic/gin"
-
 	"github.com/free5gc/nrf/internal/logger"
 	"github.com/free5gc/nrf/internal/util"
 	"github.com/free5gc/nrf/pkg/factory"
 	"github.com/free5gc/openapi/models"
+	"github.com/gin-gonic/gin"
 )
 
 func (s *Server) getAccesstokenRoutes() []Route {

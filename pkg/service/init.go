@@ -8,8 +8,6 @@ import (
 	"sync"
 	"time"
 
-	"github.com/sirupsen/logrus"
-
 	nrf_context "github.com/free5gc/nrf/internal/context"
 	"github.com/free5gc/nrf/internal/logger"
 	"github.com/free5gc/nrf/internal/sbi"
@@ -18,6 +16,7 @@ import (
 	"github.com/free5gc/nrf/pkg/app"
 	"github.com/free5gc/nrf/pkg/factory"
 	"github.com/free5gc/util/mongoapi"
+	"github.com/sirupsen/logrus"
 )
 
 var NRF *NrfApp

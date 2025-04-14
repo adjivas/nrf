@@ -7,13 +7,12 @@ import (
 	"path/filepath"
 	"syscall"
 
-	"github.com/urfave/cli"
-
 	"github.com/free5gc/nrf/internal/logger"
 	"github.com/free5gc/nrf/pkg/factory"
 	"github.com/free5gc/nrf/pkg/service"
 	logger_util "github.com/free5gc/util/logger"
 	"github.com/free5gc/util/version"
+	"github.com/urfave/cli"
 )
 
 var NRF *service.NrfApp

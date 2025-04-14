@@ -62,11 +62,11 @@ func (s *nnrfService) SendNFStatusNotify(
 		Event:         notification_event,
 		NfInstanceUri: nfInstanceUri,
 		NfProfile: &models.NfProfileNotificationData{
-			PlmnList: []models.PlmnId{},
-			SNssais: []models.Snssai{},
-			AllowedPlmns: []models.PlmnId{},
-			AllowedNssais: []models.Snssai{},
-			NfServices: []models.NfService{},
+			PlmnList:                         []models.PlmnId{},
+			SNssais:                          []models.Snssai{},
+			AllowedPlmns:                     []models.PlmnId{},
+			AllowedNssais:                    []models.Snssai{},
+			NfServices:                       []models.NfService{},
 			DefaultNotificationSubscriptions: []models.DefaultNotificationSubscription{},
 		},
 	}

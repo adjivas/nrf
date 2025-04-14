@@ -7,10 +7,6 @@ import (
 	"os"
 	"time"
 
-	"github.com/gin-gonic/gin"
-	"github.com/mitchellh/mapstructure"
-	"go.mongodb.org/mongo-driver/bson"
-
 	nrf_context "github.com/free5gc/nrf/internal/context"
 	"github.com/free5gc/nrf/internal/logger"
 	"github.com/free5gc/nrf/internal/util"
@@ -19,6 +15,9 @@ import (
 	"github.com/free5gc/openapi/oauth"
 	timedecode "github.com/free5gc/util/mapstruct"
 	"github.com/free5gc/util/mongoapi"
+	"github.com/gin-gonic/gin"
+	"github.com/mitchellh/mapstructure"
+	"go.mongodb.org/mongo-driver/bson"
 )
 
 func (p *Processor) HandleNFDeregisterRequest(c *gin.Context, nfInstanceId string) {

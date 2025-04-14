@@ -4,9 +4,8 @@ import (
 	"encoding/json"
 	"strings"
 
-	"go.mongodb.org/mongo-driver/bson"
-
 	"github.com/free5gc/openapi/models"
+	"go.mongodb.org/mongo-driver/bson"
 )
 
 func SnssaisToBsonM(snssais string) []bson.M {

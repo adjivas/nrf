@@ -9,13 +9,12 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/google/uuid"
-	"github.com/pkg/errors"
-
 	"github.com/free5gc/nrf/internal/logger"
 	"github.com/free5gc/nrf/pkg/factory"
 	"github.com/free5gc/openapi/models"
 	"github.com/free5gc/openapi/oauth"
+	"github.com/google/uuid"
+	"github.com/pkg/errors"
 )
 
 type NRFContext struct {

@@ -3,11 +3,10 @@ package util
 import (
 	"net/http"
 
-	"github.com/gin-gonic/gin"
-
 	nrf_context "github.com/free5gc/nrf/internal/context"
 	"github.com/free5gc/nrf/internal/logger"
 	"github.com/free5gc/openapi/models"
+	"github.com/gin-gonic/gin"
 )
 
 type (
