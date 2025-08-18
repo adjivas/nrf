@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net"
 	"net/http"
+	"net/netip"
 	"runtime/debug"
 	"sync"
 	"time"
@@ -19,6 +20,7 @@ import (
 	"github.com/free5gc/openapi/models"
 	"github.com/free5gc/util/httpwrapper"
 	logger_util "github.com/free5gc/util/logger"
+	"github.com/free5gc/util/metrics"
 )
 
 type ServerNrf interface {
@@ -40,14 +42,21 @@ func NewServer(nrf ServerNrf, tlsKeyLogPath string) (*Server, error) {
 		ServerNrf: nrf,
 		router:    logger_util.NewGinWithLogrus(logger.GinLog),
 	}
-	cfg := s.Config()
-	bindAddr := cfg.GetSbiBindingAddr()
-	logger.SBILog.Infof("Binding addr: [%s]", bindAddr)
+	s.router.Use(metrics.InboundMetrics())
+
+	// cfg := s.Config()
+
+	addr := s.Context().RegisterIP
+	port := uint16(s.Context().SBIPort)
+
+	bind := netip.AddrPortFrom(addr, port).String()
+
+	logger.SBILog.Infof("Binding addr: [%s]", bind)
 
 	s.applyService()
 
 	var err error
-	if s.httpServer, err = httpwrapper.NewHttp2Server(bindAddr, tlsKeyLogPath, s.router); err != nil {
+	if s.httpServer, err = httpwrapper.NewHttp2Server(bind, tlsKeyLogPath, s.router); err != nil {
 		logger.InitLog.Errorf("Initialize HTTP server failed: %v", err)
 		return nil, err
 	}
@@ -122,15 +131,16 @@ func (s *Server) startServer(wg *sync.WaitGroup) {
 	serverScheme := cfg.GetSbiScheme()
 
 	var err error
-	if serverScheme == "http" {
+	switch serverScheme {
+	case "http":
 		err = s.httpServer.ListenAndServe()
-	} else if serverScheme == "https" {
+	case "https":
 		// TODO: support TLS mutual authentication for OAuth
 		err = s.httpServer.ListenAndServeTLS(
 			cfg.GetNrfCertPemPath(),
 			cfg.GetNrfPrivKeyPath())
-	} else {
-		err = fmt.Errorf("No support this scheme[%s]", serverScheme)
+	default:
+		err = fmt.Errorf("not support this scheme[%s]", serverScheme)
 	}
 
 	if err != nil && err != http.ErrServerClosed {

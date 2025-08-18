@@ -397,7 +397,8 @@ func nnrfNFManagementOption(nf *models.NrfNfManagementNfProfile, nfprofile *mode
 }
 
 func GetNfInstanceURI(nfInstID string) string {
-	return factory.NrfConfig.GetSbiUri() + NRF_NFINST_RES_URI_PREFIX + nfInstID
+	url := GetSelf().GetIPUri()
+	return url + NRF_NFINST_RES_URI_PREFIX + nfInstID
 }
 
 func SetLocationHeader(nfprofile *models.NrfNfManagementNfProfile) string {
@@ -659,8 +660,8 @@ func NnrfUriListLimit(originalUL *UriList, limit int) {
 
 	if limit < len(originalUL.Link.Item) {
 		var i int
-		var links *Links = new(Links)
-		var item []Item = make([]Item, limit)
+		links := new(Links)
+		item := make([]Item, limit)
 		for i = 0; i < limit; i++ {
 			item[i].Href = originalUL.Link.Item[i].Href
 		}
